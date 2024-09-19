@@ -1,12 +1,45 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { PermitData } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import { approvePermit } from "../permit/update/actions";
+import { useToast } from "@/hooks/use-toast";
 
 interface UpdatePermitProps {
   permits: PermitData[];
 }
 
 const UpdatePermit: React.FC<UpdatePermitProps> = ({ permits }) => {
+  const [loading, setLoading] = useState<number | null>(null);
+  const { toast } = useToast();
+
+  const handleApprove = async (id: number) => {
+    setLoading(id);
+    try {
+      const result = await approvePermit({ id });
+      if (result.success) {
+        toast({
+          title: "Permit Approved",
+          description: `Permit ${id} has been successfully approved.`,
+          variant: "default",
+        });
+      } else {
+        throw new Error(result.error as string);
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(null);
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="mb-8 text-3xl font-bold text-gray-800">Update Permits</h1>
@@ -34,8 +67,12 @@ const UpdatePermit: React.FC<UpdatePermitProps> = ({ permits }) => {
               </p>
               <p className="mb-4 text-sm text-gray-500">{permit.description}</p>
               <div className="flex gap-3">
-                <Button className="flex-1 rounded-md bg-blue-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600">
-                  Approve
+                <Button
+                  className="flex-1 rounded-md bg-blue-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600"
+                  onClick={() => handleApprove(permit.id)}
+                  disabled={loading === permit.id}
+                >
+                  {loading === permit.id ? "Approving..." : "Approve"}
                 </Button>
                 <Button className="flex-1 rounded-md bg-red-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-600">
                   Decline
