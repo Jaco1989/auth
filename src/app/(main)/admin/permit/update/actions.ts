@@ -1,5 +1,6 @@
 "use server";
 
+import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -11,6 +12,16 @@ const approvePermitSchema = z.object({
 
 export async function approvePermit(data: z.infer<typeof approvePermitSchema>) {
   try {
+    // Validate user session
+    const { user } = await validateRequest();
+    if (!user) {
+      return { success: false, error: "Unauthorized. Please log in." };
+    }
+
+    // Check if the user has the SKIPPER role
+    if (user.role !== "ADMIN") {
+      return { success: false, error: "Only admins can approve permits." };
+    }
     const { id } = approvePermitSchema.parse(data);
 
     const updatedPermit = await prisma.permit.update({
