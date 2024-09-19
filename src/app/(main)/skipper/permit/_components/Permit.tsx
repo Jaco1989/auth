@@ -26,7 +26,7 @@ const SkipperPermit: React.FC<SkipperPermitProps> = ({ permit }) => {
               {permit.type}
             </CardDescription>
           </div>
-          <Badge className={permit.approved ? "bg-green-500" : "bg-gray-500"}>
+          <Badge className={permit.approved ? "bg-green-500" : "bg-red-500"}>
             {permit.approved ? "Approved" : "Pending"}
           </Badge>
         </div>

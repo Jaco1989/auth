@@ -16,10 +16,9 @@ const Permits = ({ permit }: PermitProps) => {
       className="block overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
     >
       <div className="p-6">
-        <div className="mb-4 flex items-center justify-between">
-          <Badge className="rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-800">
-            Approved
-          </Badge>
+        <div className="mb-4 flex items-center justify-between gap-5">
+          <Badge className="rounded-full bg-red-500 px-3 py-1 text-sm font-semibold text-red-500"></Badge>
+          Pending
           <span className="flex items-center text-sm text-gray-500">
             <Clock size={14} className="mr-1" />
             {relativeDate(permit.createdAt)}
