@@ -25,6 +25,13 @@ export default function NewPermit() {
 
   const form = useForm<CreatePermitValues>({
     resolver: zodResolver(createPermitSchema),
+    defaultValues: {
+      title: "",
+      type: "",
+      location: "",
+      description: "",
+      companyName: "",
+    },
   });
 
   const { handleSubmit, control } = form;

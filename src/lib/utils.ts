@@ -6,13 +6,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function toSlug(str: string) {
-  return str
-    .toLowerCase()
-    .replace(/ /g, "-")
-    .replace(/[^\w-]+/g, "");
-}
-
 export function formatMoney(amount: number) {
   return new Intl.NumberFormat("en-ZA", {
     style: "currency",
