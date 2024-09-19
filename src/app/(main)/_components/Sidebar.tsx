@@ -3,6 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils"; // Utility function to merge classnames
+import { Button } from "@/components/ui/button"; // Assuming you have a Button component
 import {
   Home,
   FileText,
@@ -15,15 +17,24 @@ import {
   ChevronRight,
   Anchor,
   Eye,
-  UserCog,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+} from "lucide-react"; // Icon imports
 
-const Sidebar = () => {
+// Define types for nav items and sections
+type NavItem = {
+  href: string;
+  icon: React.ElementType; // React component for the icon
+  label: string;
+};
+
+type Section = {
+  section: string;
+  items: NavItem[];
+};
+
+const Sidebar = ({ className }: { className?: string }) => {
   const pathname = usePathname();
 
-  const navItems = [
+  const navItems: Section[] = [
     {
       section: "DASHBOARD",
       items: [{ href: "/", icon: Home, label: "Home (Dashboard)" }],
@@ -47,16 +58,8 @@ const Sidebar = () => {
       section: "SUBMISSIONS",
       items: [
         { href: "/skipper", icon: Anchor, label: "Skipper" },
-        {
-          href: "/admin",
-          icon: Eye,
-          label: "Admin",
-        },
-        {
-          href: "/driver",
-          icon: Truck,
-          label: "Truck Driver",
-        },
+        { href: "/admin", icon: Eye, label: "Admin" },
+        { href: "/driver", icon: Truck, label: "Truck Driver" },
         {
           href: "/submissions/factory-controller",
           icon: Building2,
@@ -77,7 +80,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="flex h-screen w-64 flex-col bg-white p-4">
+    <div className={cn("flex h-full w-64 flex-col bg-white p-4", className)}>
       <div className="mb-6 flex items-center">
         <svg
           className="mr-2 h-6 w-6"
@@ -116,7 +119,7 @@ const Sidebar = () => {
             {section.section}
           </h3>
           <div className="space-y-1">
-            {section.items.map((item) => (
+            {section.items.map((item: NavItem) => (
               <Button
                 key={item.href}
                 variant="ghost"
@@ -131,6 +134,7 @@ const Sidebar = () => {
                 <Link href={item.href} className="flex items-center">
                   <item.icon className="mr-3 h-4 w-4" />
                   <span className="flex-grow">{item.label}</span>
+                  {/* Add a chevron for specific items */}
                   {section.section === "SUBMISSIONS" &&
                     item.label !== "Permit Holder" &&
                     item.label !== "Systems Administrator" && (

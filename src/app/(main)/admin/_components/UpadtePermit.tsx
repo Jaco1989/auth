@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { PermitData } from "@/lib/types";
 import { Button } from "@/components/ui/button";
-import { approvePermit } from "../permit/update/actions";
+import { approvePermit, declinePermit } from "../permit/update/actions";
 import { useToast } from "@/hooks/use-toast";
 
 interface UpdatePermitProps {
@@ -10,11 +10,12 @@ interface UpdatePermitProps {
 }
 
 const UpdatePermit: React.FC<UpdatePermitProps> = ({ permits }) => {
-  const [loading, setLoading] = useState<number | null>(null);
+  const [loadingApprove, setLoadingApprove] = useState<number | null>(null);
+  const [loadingDecline, setLoadingDecline] = useState<number | null>(null);
   const { toast } = useToast();
 
   const handleApprove = async (id: number) => {
-    setLoading(id);
+    setLoadingApprove(id);
     try {
       const result = await approvePermit({ id });
       if (result.success) {
@@ -36,7 +37,34 @@ const UpdatePermit: React.FC<UpdatePermitProps> = ({ permits }) => {
         variant: "destructive",
       });
     } finally {
-      setLoading(null);
+      setLoadingApprove(null);
+    }
+  };
+
+  const handleDecline = async (id: number) => {
+    setLoadingDecline(id);
+    try {
+      const result = await declinePermit({ id });
+      if (result.success) {
+        toast({
+          title: "Permit Declined",
+          description: `Permit ${id} has been declined.`,
+          variant: "default",
+        });
+      } else {
+        throw new Error(result.error as string);
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setLoadingDecline(null);
     }
   };
 
@@ -70,12 +98,20 @@ const UpdatePermit: React.FC<UpdatePermitProps> = ({ permits }) => {
                 <Button
                   className="flex-1 rounded-md bg-blue-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-600"
                   onClick={() => handleApprove(permit.id)}
-                  disabled={loading === permit.id}
+                  disabled={
+                    loadingApprove === permit.id || loadingDecline === permit.id
+                  } // Disable only when this permit is being approved/declined
                 >
-                  {loading === permit.id ? "Approving..." : "Approve"}
+                  {loadingApprove === permit.id ? "Approving..." : "Approve"}
                 </Button>
-                <Button className="flex-1 rounded-md bg-red-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-600">
-                  Decline
+                <Button
+                  className="flex-1 rounded-md bg-red-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-red-600"
+                  onClick={() => handleDecline(permit.id)}
+                  disabled={
+                    loadingApprove === permit.id || loadingDecline === permit.id
+                  } // Disable only when this permit is being approved/declined
+                >
+                  {loadingDecline === permit.id ? "Declining..." : "Decline"}
                 </Button>
               </div>
             </div>
