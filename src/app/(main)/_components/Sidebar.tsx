@@ -48,12 +48,12 @@ const Sidebar = () => {
       items: [
         { href: "/skipper", icon: Anchor, label: "Skipper" },
         {
-          href: "/monitor",
+          href: "/admin",
           icon: Eye,
-          label: "Monitor/Inspector",
+          label: "Admin",
         },
         {
-          href: "/submissions/truck-driver",
+          href: "/driver",
           icon: Truck,
           label: "Truck Driver",
         },
