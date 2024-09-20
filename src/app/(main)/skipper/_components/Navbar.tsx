@@ -29,23 +29,34 @@ const SkipperNavbar: React.FC = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  // To handle the hover dropdown
+  const handleMouseEnter = (name: string) => {
+    setActiveDropdown(name);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveDropdown(null);
+  };
+
+  // For mobile dropdowns (toggleDropdown only applies to mobile)
   const toggleDropdown = (name: string) => {
     setActiveDropdown(activeDropdown === name ? null : name);
   };
 
   const navItems: NavItem[] = [
-    { name: "New Permit", href: "/skipper/permit/new" },
-    { name: "Pending Approvals", href: "/skipper/permit" },
+    { name: "PERMIT", href: "/skipper/permit/new" },
+    { name: "ALL PERMITS", href: "/skipper/permit" },
     {
-      name: "Services",
+      name: "HISTORY",
       href: "#",
       dropdown: [
-        { name: "Web Design", href: "/skipper/web-design" },
-        { name: "App Development", href: "/skipper/app-development" },
-        { name: "SEO", href: "/skipper/seo" },
+        { name: "APPROVED", href: "/skipper" },
+        { name: "DECLINED", href: "/skipper/permit" },
+        { name: "PENDING", href: "/skipper" },
+        { name: "EXPIRED", href: "/skipper/permit" },
       ],
     },
-    { name: "Profile", href: "/skipper/profile" },
   ];
 
   const isActive = (href: string): boolean => pathname === href;
@@ -75,16 +86,20 @@ const SkipperNavbar: React.FC = () => {
               </span>
             </Link>
           </div>
-          <div className="hidden md:block">
+          <div className="z-50 hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               {navItems.map((item) => (
-                <div key={item.name} className="relative">
+                <div
+                  key={item.name}
+                  className="relative"
+                  onMouseEnter={() =>
+                    item.dropdown && handleMouseEnter(item.name)
+                  }
+                  onMouseLeave={handleMouseLeave}
+                >
                   {item.dropdown ? (
                     <div>
-                      <button
-                        onClick={() => toggleDropdown(item.name)}
-                        className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 hover:text-white"
-                      >
+                      <button className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 hover:text-white">
                         {item.name}
                         <ChevronDown className="ml-1 h-4 w-4" />
                       </button>
