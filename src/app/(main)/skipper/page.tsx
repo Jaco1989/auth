@@ -3,7 +3,7 @@ import Skipper from "./_components/Skipper";
 
 const SkipperPage = () => {
   return (
-    <div>
+    <div className="mx-auto">
       <Skipper />
     </div>
   );

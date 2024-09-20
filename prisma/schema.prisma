@@ -56,6 +56,7 @@ model Permit {
   location    String
   description String
   companyName String
+  limit       Int    @default(100)
 
   approved  Boolean  @default(false)
   createdAt DateTime @default(now())

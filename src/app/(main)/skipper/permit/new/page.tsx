@@ -3,7 +3,7 @@ import NewPermit from "../_components/NewPermit";
 
 const PermitPage = () => {
   return (
-    <div>
+    <div className="mx-auto">
       <NewPermit />
     </div>
   );
