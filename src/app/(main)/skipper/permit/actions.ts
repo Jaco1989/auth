@@ -5,23 +5,29 @@ import prisma from "@/lib/prisma";
 import { getPermitDataInclude, PermitData } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
-export async function fetchPermits(): Promise<
-  { permits: PermitData[] } | { error: string }
-> {
+export async function fetchPermits(
+  page: number,
+  pageSize: number,
+): Promise<{ permits: PermitData[]; totalCount: number } | { error: string }> {
   try {
-    // First Apply backend security check before access is granted to use actions
     const { user } = await validateRequest();
     if (!user) throw new Error("Not logged In");
     if (user.role !== "SKIPPER") throw new Error("Not Unauthorized Role");
 
-    const permits = await prisma.permit.findMany({
-      include: getPermitDataInclude(),
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const [permits, totalCount] = await Promise.all([
+      prisma.permit.findMany({
+        include: getPermitDataInclude(),
+        orderBy: {
+          createdAt: "desc",
+        },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
+      prisma.permit.count(),
+    ]);
+
     revalidatePath("/skipper/permit");
-    return { permits };
+    return { permits, totalCount };
   } catch (error) {
     console.error("Error fetching permits:", error);
     return { error: "Failed to fetch permits. Please try again." };
