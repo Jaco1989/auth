@@ -52,7 +52,7 @@ const SkipperNavbar: React.FC = () => {
       href: "#",
       dropdown: [
         { name: "APPROVED", href: "/skipper/permit/history/approved-tracker" },
-        { name: "DECLINED", href: "/skipper/permit/history/declined-permit" },
+        { name: "DECLINED", href: "/skipper/permit/history/declined-tracker" },
         { name: "PENDING", href: "/skipper/permit/history/pending-tracker" },
         { name: "EXPIRED", href: "/skipper/permit/history/expired-tracker" },
       ],
