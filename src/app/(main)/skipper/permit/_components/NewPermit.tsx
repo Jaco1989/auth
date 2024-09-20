@@ -42,7 +42,7 @@ export default function NewPermit() {
 
       if (result.success) {
         // Redirect on success
-        router.push("/skipper/permit");
+        router.push("/skipper");
       } else if (result.error) {
         setSubmitError(result.error);
       }
@@ -53,7 +53,7 @@ export default function NewPermit() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-blue-100 to-white px-4 py-12 sm:px-6 lg:px-8">
+    <main className="min-h-screen rounded-lg px-4 py-12 shadow-2xl shadow-black sm:px-6 lg:px-8">
       <div className="mx-auto max-w-md overflow-hidden rounded-xl bg-white shadow-md md:max-w-2xl">
         <div className="md:flex">
           <div className="w-full p-8">
