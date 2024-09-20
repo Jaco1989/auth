@@ -38,7 +38,7 @@ const Skipper = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white">
+    <div>
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <motion.header
           initial={{ opacity: 0, y: -50 }}
@@ -67,8 +67,9 @@ const Skipper = () => {
               styles={buildStyles({
                 textSize: "16px",
                 pathTransitionDuration: 0.5,
-                pathColor: `rgba(59, 130, 246, ${percentageComplete / 100})`,
-                textColor: "#1e40af",
+                pathColor: "rgba(255, 0, 0, 1)",
+                // pathColor: `rgba(255, 0, 0, ${percentageComplete / 100})`,
+                textColor: "#ff0000",
                 trailColor: "#d1d5db",
               })}
             />
