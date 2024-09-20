@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { motion } from "framer-motion";
+import { fetchUserPermitCount } from "../actions";
 
 const Skipper = () => {
   const session = useSession();
@@ -14,14 +15,19 @@ const Skipper = () => {
   });
 
   useEffect(() => {
-    // Simulate data fetching
     const fetchData = async () => {
-      // In a real application, you would fetch data from an API here
-      const simulatedData = {
-        totalPermits: 35, // Example total permits
-        maxPermits: 50, // Example max permits
-      };
-      setPermitData(simulatedData);
+      try {
+        const result = await fetchUserPermitCount();
+        if ("error" in result) {
+          console.error(result.error);
+          // Handle error state
+        } else {
+          setPermitData(result);
+        }
+      } catch (error) {
+        console.error("Failed to fetch permit data:", error);
+        // Handle error state
+      }
     };
 
     fetchData();
