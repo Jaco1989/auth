@@ -86,7 +86,7 @@ const SkipperNavbar: React.FC = () => {
               </span>
             </Link>
           </div>
-          <div className="z-50 hidden md:block">
+          <div className="z-50 hidden md:z-0 md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               {navItems.map((item) => (
                 <div

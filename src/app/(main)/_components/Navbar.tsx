@@ -8,7 +8,7 @@ export default function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-10 bg-card shadow-sm">
+    <header className="sticky top-0 z-50 bg-card shadow-sm">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 px-5 py-3">
         <div className="flex items-center gap-4">
           {/* Toggle Button for Sidebar on Mobile */}
