@@ -27,8 +27,20 @@ const SkipperPermit: React.FC<SkipperPermitProps> = ({ permit }) => {
               {permit.type}
             </CardDescription>
           </div>
-          <Badge className={permit.approved ? "bg-green-500" : "bg-red-500"}>
-            {permit.approved ? "Approved" : "Pending"}
+          <Badge
+            className={
+              permit.approved
+                ? "bg-green-500"
+                : permit.updatedAt > permit.createdAt
+                  ? "bg-red-500"
+                  : "bg-yellow-500"
+            }
+          >
+            {permit.approved
+              ? "Approved"
+              : permit.updatedAt > permit.createdAt
+                ? "Declined"
+                : "Pending"}
           </Badge>
         </div>
       </CardHeader>
@@ -50,7 +62,7 @@ const SkipperPermit: React.FC<SkipperPermitProps> = ({ permit }) => {
         <p className="text-sm text-gray-600">{permit.description}</p>
       </CardContent>
       <CardFooter className="flex justify-between text-sm text-gray-500">
-        <div className="flex items-center space-x-1">
+        <div className="flex items-center gap-3 space-x-1">
           <CalendarIcon className="h-4 w-4" />
           <span>Created: {permit.createdAt.toLocaleDateString()}</span>
         </div>
