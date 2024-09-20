@@ -26,7 +26,7 @@ export default function Navbar() {
               />
             </svg>
           </button>
-          <div className="text-2xl font-bold text-primary">
+          <div className="ml-20 text-2xl font-bold text-primary">
             SHIPPING TRACKER
           </div>
         </div>
