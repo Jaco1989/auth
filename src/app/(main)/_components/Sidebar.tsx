@@ -80,7 +80,7 @@ const Sidebar = ({ className }: { className?: string }) => {
   ];
 
   return (
-    <div className={cn("flex h-full w-64 flex-col bg-white p-4", className)}>
+    <div className={cn("flex h-screen w-64 flex-col bg-white p-4", className)}>
       <div className="mb-6 flex items-center">
         <svg
           className="mr-2 h-6 w-6"
