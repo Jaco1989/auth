@@ -1,9 +1,10 @@
 import React from "react";
+import PendingTracker from "./PendingTracker";
 
 const Page = () => {
   return (
     <div>
-      <div>Pending Tracker</div>
+      <PendingTracker/>
     </div>
   );
 };

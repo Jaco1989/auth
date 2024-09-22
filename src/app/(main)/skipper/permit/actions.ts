@@ -12,10 +12,11 @@ export async function fetchPermits(
   try {
     const { user } = await validateRequest();
     if (!user) throw new Error("Not logged In");
-    if (user.role !== "SKIPPER") throw new Error("Not Unauthorized Role");
+    if (user.role !== "SKIPPER") throw new Error("Unauthorized Role");
 
     const [permits, totalCount] = await Promise.all([
       prisma.permit.findMany({
+        where: { userId: user.id }, // Filter permits by the current user's ID
         include: getPermitDataInclude(),
         orderBy: {
           createdAt: "desc",
@@ -23,7 +24,7 @@ export async function fetchPermits(
         skip: (page - 1) * pageSize,
         take: pageSize,
       }),
-      prisma.permit.count(),
+      prisma.permit.count({ where: { userId: user.id } }), // Count only the current user's permits
     ]);
 
     revalidatePath("/skipper/permit");

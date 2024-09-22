@@ -1,7 +1,12 @@
 import React from "react";
+import DeclinedTracker from "./DeclinedTracker";
 
 const Page = () => {
-  return <div></div>;
+  return (
+    <div>
+      <DeclinedTracker />
+    </div>
+  );
 };
 
 export default Page;
