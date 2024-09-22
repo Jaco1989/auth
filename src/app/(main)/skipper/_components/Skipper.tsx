@@ -9,6 +9,7 @@ import { fetchUserPermitCount } from "../actions";
 
 const Skipper = () => {
   const session = useSession();
+
   const [permitData, setPermitData] = useState({
     totalPermits: 0,
     maxPermits: 50,
