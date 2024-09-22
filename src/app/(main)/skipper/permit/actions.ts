@@ -14,18 +14,21 @@ export async function fetchPermits(
     if (!user) throw new Error("Not logged In");
     if (user.role !== "SKIPPER") throw new Error("Unauthorized Role");
 
+    const start = Date.now(); // Start time for logging
+
     const [permits, totalCount] = await Promise.all([
       prisma.permit.findMany({
-        where: { userId: user.id }, // Filter permits by the current user's ID
+        where: { userId: user.id },
         include: getPermitDataInclude(),
-        orderBy: {
-          createdAt: "desc",
-        },
+        orderBy: { createdAt: "desc" },
         skip: (page - 1) * pageSize,
         take: pageSize,
       }),
-      prisma.permit.count({ where: { userId: user.id } }), // Count only the current user's permits
+      prisma.permit.count({ where: { userId: user.id } }),
     ]);
+
+    const end = Date.now(); // End time for logging
+    console.log(`Fetching permits took ${end - start}ms`);
 
     revalidatePath("/skipper/permit");
     return { permits, totalCount };

@@ -24,12 +24,12 @@ export async function getApprovedPermits(): Promise<ApprovedPermitsResult> {
       },
       select: {
         id: true,
-        createdAt: true, // Ensure createdAt is selected else updatedAt wont work
+        createdAt: true, // Ensure createdAt is selected
         updatedAt: true,
       },
     });
 
-    revalidatePath("/skipper/permit/history/approved-tracker"); //refresh path
+    revalidatePath("/skipper/permit/history/approved-tracker");
     return approvedPermits;
   } catch (error) {
     console.error("Error fetching approved permits:", error);

@@ -10,6 +10,8 @@ const PermitPage = async ({
   searchParams: { page?: string };
 }) => {
   const page = Number(searchParams.page) || 1;
+
+  // Start fetching permits
   const result = await fetchPermits(page, PAGE_SIZE);
 
   if ("error" in result) {
