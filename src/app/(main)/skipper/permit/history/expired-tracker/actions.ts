@@ -51,7 +51,7 @@ export async function getOldPermits(
       take: pageSize,
     });
 
-    revalidatePath("/skipper/permit/history/old-permits");
+    revalidatePath("/skipper/permit/history/expired-tracker");
 
     return {
       permits: oldPermits.map(
