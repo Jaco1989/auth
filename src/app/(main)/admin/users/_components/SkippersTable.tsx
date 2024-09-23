@@ -73,6 +73,7 @@ const SkippersTable = async () => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Avatar</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Username</TableHead>
               <TableHead>Email</TableHead>
@@ -83,26 +84,26 @@ const SkippersTable = async () => {
           <TableBody>
             {skippers.map((skipper) => (
               <TableRow key={skipper.id}>
-                <TableCell className="font-medium">
-                  <div className="flex items-center space-x-2">
-                    <Avatar>
-                      {skipper.avatarUrl ? (
-                        <AvatarImage
-                          src={skipper.avatarUrl}
-                          alt={skipper.displayName}
-                        />
-                      ) : (
-                        <AvatarFallback>
-                          {skipper.displayName.charAt(0)}
-                        </AvatarFallback>
-                      )}
-                    </Avatar>
-                    <span>{skipper.displayName}</span>
-                  </div>
+                <TableCell>
+                  <Avatar>
+                    {skipper.avatarUrl ? (
+                      <AvatarImage
+                        src={skipper.avatarUrl}
+                        alt={skipper.displayName}
+                      />
+                    ) : (
+                      <AvatarFallback>
+                        {skipper.displayName.charAt(0)}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
                 </TableCell>
+                <TableCell>{skipper.displayName}</TableCell>
                 <TableCell>{skipper.username}</TableCell>
                 <TableCell>{skipper.email}</TableCell>
-                <TableCell>{skipper.bio}</TableCell>
+                <TableCell>
+                  {skipper.bio ? skipper.bio.slice(0, 50) + "..." : "No bio"}
+                </TableCell>
                 <TableCell>
                   {new Date(skipper.createdAt).toLocaleDateString()}
                 </TableCell>

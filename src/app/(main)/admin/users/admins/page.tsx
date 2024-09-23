@@ -3,7 +3,7 @@ import AdminsTable from "../_components/AdminsTable";
 
 const Page = () => {
   return (
-    <div>
+    <div className="mx-auto">
       <AdminsTable />
     </div>
   );

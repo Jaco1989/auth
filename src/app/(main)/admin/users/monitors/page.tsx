@@ -3,7 +3,7 @@ import MonitorsTable from "../_components/MonitorsTable";
 
 const Page = () => {
   return (
-    <div>
+    <div className="mx-auto">
       <MonitorsTable />
     </div>
   );

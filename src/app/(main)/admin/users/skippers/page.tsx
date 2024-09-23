@@ -3,7 +3,7 @@ import SkippersTable from "../_components/SkippersTable";
 
 const Page = () => {
   return (
-    <div>
+    <div className="mx-auto">
       <SkippersTable />
     </div>
   );

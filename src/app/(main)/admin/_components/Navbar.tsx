@@ -42,7 +42,6 @@ const AdminNavbar: React.FC = () => {
         { name: "ADMINS", href: "/admin/users/admins" },
       ],
     },
-    { name: "PROFILE", href: "/admin/profile" },
   ];
 
   const isActive = (href: string): boolean => pathname === href;

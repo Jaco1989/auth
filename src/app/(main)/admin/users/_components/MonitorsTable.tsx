@@ -73,6 +73,7 @@ const MonitorsTable = async () => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Avatar</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Username</TableHead>
               <TableHead>Email</TableHead>
@@ -83,26 +84,26 @@ const MonitorsTable = async () => {
           <TableBody>
             {monitors.map((monitor) => (
               <TableRow key={monitor.id}>
-                <TableCell className="font-medium">
-                  <div className="flex items-center space-x-2">
-                    <Avatar>
-                      {monitor.avatarUrl ? (
-                        <AvatarImage
-                          src={monitor.avatarUrl}
-                          alt={monitor.displayName}
-                        />
-                      ) : (
-                        <AvatarFallback>
-                          {monitor.displayName.charAt(0)}
-                        </AvatarFallback>
-                      )}
-                    </Avatar>
-                    <span>{monitor.displayName}</span>
-                  </div>
+                <TableCell>
+                  <Avatar>
+                    {monitor.avatarUrl ? (
+                      <AvatarImage
+                        src={monitor.avatarUrl}
+                        alt={monitor.displayName}
+                      />
+                    ) : (
+                      <AvatarFallback>
+                        {monitor.displayName.charAt(0)}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
                 </TableCell>
+                <TableCell>{monitor.displayName}</TableCell>
                 <TableCell>{monitor.username}</TableCell>
                 <TableCell>{monitor.email}</TableCell>
-                <TableCell>{monitor.bio}</TableCell>
+                <TableCell>
+                  {monitor.bio ? monitor.bio.slice(0, 50) + "..." : "No bio"}
+                </TableCell>
                 <TableCell>
                   {new Date(monitor.createdAt).toLocaleDateString()}
                 </TableCell>

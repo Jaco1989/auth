@@ -3,7 +3,7 @@ import DriversTable from "../_components/DriversTable";
 
 const Page = () => {
   return (
-    <div>
+    <div className="mx-auto">
       <DriversTable />
     </div>
   );
