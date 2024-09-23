@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { Menu, X, ChevronDown, User } from "lucide-react";
 import { useSession } from "../../SessionProvider";
@@ -30,9 +29,6 @@ const AdminNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
-  const toggleDropdown = (name: string) => {
-    setActiveDropdown(activeDropdown === name ? null : name);
-  };
 
   const navItems: NavItem[] = [
     { name: "PENDING APPROVAL", href: "/admin/permit/update" },
@@ -56,9 +52,7 @@ const AdminNavbar: React.FC = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    // Initial check
     handleResize();
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -86,11 +80,11 @@ const AdminNavbar: React.FC = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               {navItems.map((item) => (
-                <div key={item.name} className="relative">
+                <div key={item.name} className="group relative">
                   {item.dropdown ? (
                     <div>
                       <button
-                        onClick={() => toggleDropdown(item.name)}
+                        onMouseEnter={() => setActiveDropdown(item.name)}
                         className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 hover:text-white"
                       >
                         {item.name}
@@ -104,6 +98,7 @@ const AdminNavbar: React.FC = () => {
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
                             className="absolute left-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg ring-1 ring-black ring-opacity-5"
+                            onMouseLeave={() => setActiveDropdown(null)}
                           >
                             {item.dropdown.map((subItem) => (
                               <Link
@@ -168,7 +163,11 @@ const AdminNavbar: React.FC = () => {
                   {item.dropdown ? (
                     <div>
                       <button
-                        onClick={() => toggleDropdown(item.name)}
+                        onClick={() =>
+                          setActiveDropdown(
+                            activeDropdown === item.name ? null : item.name,
+                          )
+                        }
                         className="flex w-full items-center rounded-md px-3 py-2 text-base font-medium text-white hover:bg-blue-700 hover:text-white"
                       >
                         {item.name}
