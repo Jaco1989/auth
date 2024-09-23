@@ -43,7 +43,7 @@ const AdminNavbar: React.FC = () => {
         { name: "SKIPPERS", href: "/admin/skipper-table" },
         { name: "DRIVERS", href: "/admin/driver-table" },
         { name: "MONITORS", href: "/admin/monitor-table" },
-        { name: "ADMINS", href: "/admin/admin-table" },
+        { name: "ADMINS", href: "/admin/users/admins" },
       ],
     },
     { name: "PROFILE", href: "/admin/profile" },
