@@ -61,7 +61,7 @@ const ApprovedPermitsTracker: React.FC = () => {
 
     permits.forEach((permit) => {
       const date = new Date(permit.updatedAt);
-      const day = date.toLocaleDateString("en-US", {
+      const day = date.toLocaleDateString("en-ZA", {
         weekday: "long",
       }) as keyof DayCount;
       counts[day]++;
