@@ -40,9 +40,9 @@ const AdminNavbar: React.FC = () => {
       name: "USERS",
       href: "#",
       dropdown: [
-        { name: "SKIPPERS", href: "/admin/skipper-table" },
-        { name: "DRIVERS", href: "/admin/driver-table" },
-        { name: "MONITORS", href: "/admin/monitor-table" },
+        { name: "SKIPPERS", href: "/admin/users/skippers" },
+        { name: "DRIVERS", href: "/admin/users/drivers" },
+        { name: "MONITORS", href: "/admin/users/monitors" },
         { name: "ADMINS", href: "/admin/users/admins" },
       ],
     },
