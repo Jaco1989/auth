@@ -63,7 +63,9 @@ export default function ExpiredPermits() {
 
   return (
     <div className="container z-0 mx-auto">
-      <h1 className="mb-6 text-center text-3xl font-bold">Expired Permits</h1>
+      <h1 className="mb-6 text-center text-3xl font-bold text-muted-foreground">
+        Expired Permits
+      </h1>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {permits.map((permit) => (
           <div
@@ -73,7 +75,7 @@ export default function ExpiredPermits() {
             <Card className="h-full overflow-hidden rounded-lg bg-white shadow-lg transition-shadow duration-300 hover:shadow-xl">
               <CardHeader className="border-b bg-gray-50">
                 <div className="flex items-center justify-between">
-                  <h2 className="truncate text-xl font-semibold">
+                  <h2 className="truncate text-xl font-semibold text-black">
                     {permit.title}
                   </h2>
                   <Badge variant="destructive">Expired</Badge>

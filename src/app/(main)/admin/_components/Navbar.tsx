@@ -27,6 +27,7 @@ const AdminNavbar: React.FC = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleDropdown = (name: string) => {
@@ -34,31 +35,39 @@ const AdminNavbar: React.FC = () => {
   };
 
   const navItems: NavItem[] = [
-    { name: "Pending Approvals", href: "/admin/permit/update" },
+    { name: "PENDING APPROVAL", href: "/admin/permit/update" },
     {
-      name: "Services",
+      name: "USERS",
       href: "#",
       dropdown: [
-        { name: "Web Design", href: "/admin/web-design" },
-        { name: "App Development", href: "/admin/app-development" },
-        { name: "SEO", href: "/admin/seo" },
+        { name: "SKIPPERS", href: "/admin/skipper-table" },
+        { name: "DRIVERS", href: "/admin/driver-table" },
+        { name: "MONITORS", href: "/admin/monitor-table" },
+        { name: "ADMINS", href: "/admin/admin-table" },
       ],
     },
-    { name: "Profile", href: "/admin/profile" },
+    { name: "PROFILE", href: "/admin/profile" },
   ];
 
   const isActive = (href: string): boolean => pathname === href;
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsOpen(false);
-      }
+      setIsMobile(window.innerWidth < 768);
     };
+
+    // Initial check
+    handleResize();
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (!isMobile) {
+      setIsOpen(false);
+    }
+  }, [isMobile]);
 
   if (!session.user || session.user.role !== "ADMIN") return null;
 
@@ -145,7 +154,7 @@ const AdminNavbar: React.FC = () => {
       </div>
 
       <AnimatePresence>
-        {isOpen && (
+        {isOpen && isMobile && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}

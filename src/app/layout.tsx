@@ -14,15 +14,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={""}>
+    <html lang="en" suppressHydrationWarning>
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="contents">{children}</div>
         </ThemeProvider>
         <Toaster />
       </body>
