@@ -26,8 +26,10 @@ import {
   Building,
 } from "lucide-react";
 import { submitCatch } from "./actions";
+import LoadingButton from "@/components/LoadingButton";
 
 const CatchLog = () => {
+  const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -54,11 +56,11 @@ const CatchLog = () => {
   const { handleSubmit, control } = form;
 
   async function onSubmit(values: CatchValues) {
+    setLoading(true);
     try {
       const result = await submitCatch(values);
 
       if (result.success) {
-        // Redirect on success
         router.push("/skipper");
       } else if (result.error) {
         setSubmitError(result.error);
@@ -66,12 +68,14 @@ const CatchLog = () => {
     } catch (error) {
       console.error("Error submitting catch:", error);
       setSubmitError("Something went wrong, please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <main className="min-h-screen rounded-lg px-4 py-12 shadow-2xl shadow-black sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-md overflow-hidden rounded-xl bg-white shadow-md md:max-w-2xl">
+    <main className="rounded-lg px-4 py-12 shadow-2xl shadow-black sm:px-6 lg:px-8">
+      <div className="mx-auto h-full max-w-md overflow-hidden rounded-xl bg-white shadow-md md:max-w-2xl">
         <div className="md:flex">
           <div className="w-full p-8">
             <div className="mb-1 text-sm font-semibold uppercase tracking-wide text-indigo-500">
@@ -98,314 +102,317 @@ const CatchLog = () => {
                 noValidate
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <FormField
-                  control={control}
-                  name="port"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <Anchor className="mr-2 h-5 w-5" />
-                        Port
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          placeholder="Enter the port name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="logDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <Calendar className="mr-2 h-5 w-5" />
-                        Log Date
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="date"
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          {...field}
-                          value={
-                            field.value instanceof Date
-                              ? field.value.toISOString().split("T")[0]
-                              : field.value
-                          }
-                          onChange={(e) =>
-                            field.onChange(new Date(e.target.value))
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="catchType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <Fish className="mr-2 h-5 w-5" />
-                        Catch Type
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          placeholder="Enter the type of catch"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="quantity"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <Scale className="mr-2 h-5 w-5" />
-                        Quantity
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(parseInt(e.target.value))
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="weight"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <Scale className="mr-2 h-5 w-5" />
-                        Weight (kg)
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(parseInt(e.target.value))
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="country"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <Flag className="mr-2 h-5 w-5" />
-                        Country
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          placeholder="Enter the country"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="skipperName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <User className="mr-2 h-5 w-5" />
-                        Skipper Name
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          placeholder="Enter the skipper's name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="permitHolder"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <FileText className="mr-2 h-5 w-5" />
-                        Permit Holder
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          placeholder="Enter the permit holder's name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="idNumber"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <FileText className="mr-2 h-5 w-5" />
-                        ID Number
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          placeholder="Enter the ID number"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="permitType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <FileText className="mr-2 h-5 w-5" />
-                        Permit Type
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          placeholder="Enter the permit type"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="permitDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <Calendar className="mr-2 h-5 w-5" />
-                        Permit Date
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="date"
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          {...field}
-                          value={
-                            field.value instanceof Date
-                              ? field.value.toISOString().split("T")[0]
-                              : field.value
-                          }
-                          onChange={(e) =>
-                            field.onChange(new Date(e.target.value))
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="vesselName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <Ship className="mr-2 h-5 w-5" />
-                        Vessel Name
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          placeholder="Enter the vessel name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="factoryName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <Building className="mr-2 h-5 w-5" />
-                        Factory Name
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          placeholder="Enter the factory name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="factoryAddress"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center text-gray-700">
-                        <Building className="mr-2 h-5 w-5" />
-                        Factory Address
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          placeholder="Enter the factory address"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+                  <FormField
+                    control={control}
+                    name="port"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <Anchor className="mr-2 h-5 w-5" />
+                          Port
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Enter the port name"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="logDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <Calendar className="mr-2 h-5 w-5" />
+                          Log Date
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="date"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            {...field}
+                            value={
+                              field.value instanceof Date
+                                ? field.value.toISOString().split("T")[0]
+                                : field.value
+                            }
+                            onChange={(e) =>
+                              field.onChange(new Date(e.target.value))
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="catchType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <Fish className="mr-2 h-5 w-5" />
+                          Catch Type
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Enter the type of catch"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="quantity"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <Scale className="mr-2 h-5 w-5" />
+                          Quantity
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            {...field}
+                            onChange={(e) =>
+                              field.onChange(parseInt(e.target.value))
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="weight"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <Scale className="mr-2 h-5 w-5" />
+                          Weight (kg)
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            {...field}
+                            onChange={(e) =>
+                              field.onChange(parseInt(e.target.value))
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="country"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <Flag className="mr-2 h-5 w-5" />
+                          Country
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Enter the country"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="skipperName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <User className="mr-2 h-5 w-5" />
+                          Skipper Name
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Enter the skipper's name"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="permitHolder"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <FileText className="mr-2 h-5 w-5" />
+                          Permit Holder
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Enter the permit holder's name"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="idNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <FileText className="mr-2 h-5 w-5" />
+                          ID Number
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Enter the ID number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="permitType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <FileText className="mr-2 h-5 w-5" />
+                          Permit Type
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Enter the permit type"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="permitDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <Calendar className="mr-2 h-5 w-5" />
+                          Permit Date
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="date"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            {...field}
+                            value={
+                              field.value instanceof Date
+                                ? field.value.toISOString().split("T")[0]
+                                : field.value
+                            }
+                            onChange={(e) =>
+                              field.onChange(new Date(e.target.value))
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="vesselName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <Ship className="mr-2 h-5 w-5" />
+                          Vessel Name
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Enter the vessel name"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="factoryName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <Building className="mr-2 h-5 w-5" />
+                          Factory Name
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Enter the factory name"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="factoryAddress"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center text-gray-700">
+                          <Building className="mr-2 h-5 w-5" />
+                          Factory Address
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Enter the factory address"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <LoadingButton
+                  className="mt-[26px] w-full"
                   type="submit"
+                  loading={loading}
                 >
                   Submit Catch Log
-                </Button>
+                </LoadingButton>
               </form>
             </Form>
           </div>
