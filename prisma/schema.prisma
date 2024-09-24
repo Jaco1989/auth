@@ -29,6 +29,7 @@ model User {
   role         UserRole  @default(USER)
   sessions     Session[]
   permits      Permit[]
+  cacthes      Catch[]
 
   createdAt DateTime @default(now())
 
@@ -63,4 +64,35 @@ model Permit {
   updatedAt DateTime @updatedAt
 
   @@map("permits")
+}
+
+// schema.prisma
+
+model Catch {
+  id     Int    @id @default(autoincrement())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  port           String
+  logDate        DateTime
+  catchType      String
+  quantity       Int
+  weight         Int
+  country        String
+  skipperName    String
+  permitHolder   String
+  idNumber       String
+  permitType     String
+  permitDate     DateTime
+  vesselName     String
+  factoryName    String
+  factoryAddress String
+
+  limit Int @default(100)
+
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("catches")
 }

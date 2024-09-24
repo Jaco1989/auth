@@ -1,6 +1,10 @@
 import { z } from "zod";
 
 const requiredString = z.string().trim().min(1, "Required");
+const requiredInt = z.number().int().min(1, "Must be greater than 0");
+const requiredDate = z
+  .date()
+  .refine((date) => !isNaN(date.getTime()), "Invalid date");
 
 export const signUpSchema = z.object({
   email: requiredString.email("Invalid email address"),
@@ -34,3 +38,26 @@ export const createPermitSchema = z.object({
 });
 
 export type CreatePermitValues = z.infer<typeof createPermitSchema>;
+
+///////////////////////////////////////////////////////////////////////////////////
+
+export const catchSchema = z.object({
+  port: requiredString.max(100),
+  logDate: requiredDate,
+  catchType: requiredString,
+  quantity: requiredInt,
+  weight: requiredInt,
+  country: requiredString,
+  skipperName: requiredString.max(100),
+  permitHolder: requiredString.max(100),
+  idNumber: requiredString,
+  permitType: requiredString,
+  permitDate: requiredDate,
+  vesselName: requiredString,
+  factoryName: requiredString,
+  factoryAddress: requiredString,
+});
+
+export type CatchValues = z.infer<typeof catchSchema>;
+
+//////////////////////////////////////////////////////////////////////////////////////////

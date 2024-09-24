@@ -45,7 +45,8 @@ const SkipperNavbar: React.FC = () => {
   };
 
   const navItems: NavItem[] = [
-    { name: "PERMIT", href: "/skipper/permit/new" },
+    { name: "PERMIT LOG", href: "/skipper/permit/new" },
+    { name: "CATCH LOG", href: "/skipper/catch/report" },
     { name: "ALL PERMITS", href: "/skipper/permit" },
     {
       name: "HISTORY",
