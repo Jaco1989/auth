@@ -45,8 +45,7 @@ model Session {
   @@map("sessions")
 }
 
-// Skipper Models
-
+// Skipper Model => 1.PERMIT 
 model Permit {
   id     Int    @id @default(autoincrement())
   userId String
@@ -66,8 +65,7 @@ model Permit {
   @@map("permits")
 }
 
-// schema.prisma
-
+// Skipper Model => 1.CATCH
 model Catch {
   id     Int    @id @default(autoincrement())
   userId String
