@@ -32,6 +32,7 @@ const CatchLog = () => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const router = useRouter();
 
+  // The Hook for the form
   const form = useForm<CatchValues>({
     resolver: zodResolver(catchSchema),
     defaultValues: {
@@ -52,6 +53,7 @@ const CatchLog = () => {
     },
   });
 
+  // The build-in functions coming from hook form
   const { handleSubmit, control } = form;
 
   async function onSubmit(values: CatchValues) {
@@ -72,6 +74,7 @@ const CatchLog = () => {
     }
   }
 
+  // This is the section where we connect the hook form
   return (
     <main className="rounded-lg px-4 py-12 shadow-2xl shadow-black sm:px-6 lg:px-8">
       <div className="mx-auto h-full max-w-md overflow-hidden rounded-xl bg-white shadow-md md:max-w-2xl">
@@ -95,6 +98,7 @@ const CatchLog = () => {
                 <p>{submitError}</p>
               </div>
             )}
+            {/* This is where we Hook the form with {...form} */}
             <Form {...form}>
               <form
                 className="space-y-6"
