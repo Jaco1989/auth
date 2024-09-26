@@ -35,7 +35,7 @@ export const createPermitSchema = z.object({
 
 export type CreatePermitValues = z.infer<typeof createPermitSchema>;
 
-///////////////////////////////////////////////////////////////////////////////////
+//////////////////////===CATCHLOG===//////////////////////
 
 const requiredInt = z.number().int().min(1, "Must be greater than 0");
 const requiredDate = z
@@ -60,5 +60,3 @@ export const catchSchema = z.object({
 });
 
 export type CatchValues = z.infer<typeof catchSchema>;
-
-//////////////////////////////////////////////////////////////////////////////////////////

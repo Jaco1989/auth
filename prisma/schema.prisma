@@ -29,7 +29,7 @@ model User {
   role         UserRole  @default(USER)
   sessions     Session[]
   permits      Permit[]
-  cacthes      Catch[]
+  catches      Catch[]
 
   createdAt DateTime @default(now())
 
@@ -45,7 +45,7 @@ model Session {
   @@map("sessions")
 }
 
-// Skipper Model => 1.PERMIT 
+// Skipper Model => 1.PERMIT MODEL 
 model Permit {
   id     Int    @id @default(autoincrement())
   userId String
@@ -65,7 +65,7 @@ model Permit {
   @@map("permits")
 }
 
-// Skipper Model => 1.CATCH
+// Skipper Model => 2.CATCH MODEL
 model Catch {
   id     Int    @id @default(autoincrement())
   userId String
