@@ -8,6 +8,21 @@ import { isRedirectError } from "next/dist/client/components/redirect";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+// Define the routes for each role
+enum UserRole {
+  SKIPPER = "SKIPPER",
+  DRIVER = "DRIVER",
+  MONITOR = "MONITOR",
+  ADMIN = "ADMIN",
+}
+
+const roleRoutes: Record<UserRole, string> = {
+  [UserRole.SKIPPER]: "/skipper/dashboard",
+  [UserRole.DRIVER]: "/driver/dashboard",
+  [UserRole.MONITOR]: "/monitor/dashboard",
+  [UserRole.ADMIN]: "/admin/dashboard",
+};
+
 export async function login(
   credentials: LoginValues,
 ): Promise<{ error: string }> {
@@ -50,7 +65,10 @@ export async function login(
       sessionCookie.attributes,
     );
 
-    return redirect("/");
+    const userRole = existingUser.role as UserRole;
+    const redirectPath = roleRoutes[userRole] || "/";
+
+    return redirect(redirectPath);
   } catch (error) {
     if (isRedirectError(error)) throw error;
     console.error(error);
